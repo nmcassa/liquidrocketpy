@@ -12,7 +12,31 @@ def get_parsed_page(url: str) -> BeautifulSoup:
     return BeautifulSoup(requests.get(url, headers=headers).text, "lxml")
 
 def get_na_teams() -> list:
-    page = get_parsed_page("https://liquipedia.net/rocketleague/Portal:Teams/North_America")
+    return get_teams("North_America")
+
+def get_eu_teams() -> list:
+    return get_teams("Europe")
+
+def get_oce_teams() -> list:
+    return get_teams("Oceania")
+
+def get_sa_teams() -> list:
+    return get_teams("South_America")
+
+def get_mena_teams() -> list:
+    return get_teams("Middle_East_and_North_Africa")
+
+def get_ap_teams() -> list:
+    return get_teams("Asia-Pacific")
+
+def get_ssa_teams() -> list:
+    return get_teams("Sub-Saharan_Africa")
+
+def get_school_teams() -> list:
+    return get_teams("School")
+
+def get_teams(region: str) -> list:
+    page = get_parsed_page("https://liquipedia.net/rocketleague/Portal:Teams/" + region)
     ret = []
 
     data = page.find_all("span", {"class": "team-template-text"})
@@ -32,4 +56,4 @@ def jsonify(self) -> str:
     return json.dumps(self, indent=4,cls=Encoder)
 
 if __name__ == "__main__":
-	print(jsonify(get_na_teams()[1:5]))
+	print(jsonify(get_school_teams()[1:5]))
