@@ -3,9 +3,37 @@ from bs4 import BeautifulSoup
 import json
 from json import JSONEncoder
 
+class Team:
+    def __init__(self, url: str):
+        self.url = "https://liquipedia.net" + url
+        self.info = self.side_bar_info()
+
+    def __str__(self):
+        return jsonify(self)
+
+    def side_bar_info(self):
+        page = get_parsed_page(self.url)
+        data = page.find_all("div", {"class": "infobox-cell-2"})
+
+        i = 0
+        ret = {}
+
+        while i < len(data):
+            ret[data[i].text[:len(data[i].text)-1]] = data[i+1].text.replace('\xa0','')
+            i += 2
+
+        return ret
+
+class Encoder(JSONEncoder):
+    def default(self, o):
+        return o.__dict__
+
+def jsonify(info: dict) -> str:
+    return json.dumps(info, indent=4,cls=Encoder)
+
 def get_parsed_page(url: str) -> BeautifulSoup:
     headers = {
-        "referer": "https://liquipedia.com",
+        "referer": "https://liquipedia.net",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     }
 
@@ -48,12 +76,10 @@ def get_teams(region: str) -> list:
 
     return ret
 
-class Encoder(JSONEncoder):
-    def default(self, o):
-        return o.__dict__
-
-def jsonify(self) -> str:
-    return json.dumps(self, indent=4,cls=Encoder)
-
 if __name__ == "__main__":
-	print(jsonify(get_school_teams()[1:5]))
+    teams = get_na_teams()
+
+    #print(teams[1:5])
+
+    t = Team('/rocketleague/FaZe_Clan')
+    print(t)

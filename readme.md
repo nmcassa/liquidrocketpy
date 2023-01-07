@@ -8,6 +8,27 @@
  pip install liquidrocketpy
  ```
 
+## Team Object
+
+ ```python
+ from liquidrocketpy import rl
+ t = rl.Team('/rocketleague/FaZe_Clan')
+ print(t)
+
+ {
+    "url": "https://liquipedia.net/rocketleague/FaZe_Clan",
+    "info": {
+        "Location": "United States",
+        "Region": "North America",
+        "Coach": " Raul \"Roll Dizz\" Diaz",
+        "Approx. Total Winnings": "$736,870",
+        "LPRating": "2783(Rank #1)",
+        "RLCS Points": "61 (Rank #2)",
+        "Created": "2021-03-19"
+    }
+ }
+ ```
+
 ## Get Teams
  returns a list of dicts holding team's names and liquipedia urls
 
@@ -25,24 +46,7 @@
  ```python
  from liquidrocketpy import rl
  teams = rl.get_na_teams()
- print(rl.jsonify(teams[1:5]))
+ print(teams[1:5])
 
-[
-    {
-        "name": "303 Esports",
-        "url": "/rocketleague/303_Esports"
-    },
-    {
-        "name": "72PC",
-        "url": "/rocketleague/72PC"
-    },
-    {
-        "name": "Akrew",
-        "url": "/rocketleague/Akrew"
-    },
-    {
-        "name": "Alter Ego",
-        "url": "/rocketleague/Alter_Ego"
-    }
-]
+ [{'name': '72PC', 'url': '/rocketleague/72PC'}, {'name': 'Akrew', 'url': '/rocketleague/Akrew'}, {'name': 'Alter Ego', 'url': '/rocketleague/Alter_Ego'}, {'name': 'Andriette', 'url': '/rocketleague/Andriette'}]
  ```
