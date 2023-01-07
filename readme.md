@@ -1,5 +1,8 @@
 # liquidrocketpy
 
+ [![PyPI version](https://badge.fury.io/py/liquidrocketpy.svg)](https://badge.fury.io/py/liquidrocketpy)
+ [![Downloads](https://static.pepy.tech/badge/liquidrocketpy)](https://pepy.tech/project/liquidrocketpy)
+
  A webscrapping api for the [rocket league page of liquipedia](https://liquipedia.net/rocketleague/Main_Page)
 
 ## Install
