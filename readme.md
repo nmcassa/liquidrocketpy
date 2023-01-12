@@ -20,13 +20,26 @@
 
  {
     "url": "https://liquipedia.net/rocketleague/FaZe_Clan",
+    "roster": {
+        "curr": [
+            "Firstkiller",
+            "Sypical",
+            "mist",
+            "Roll Dizz"
+        ],
+        "former": [
+            "AYYJAYY",
+            "Moopy",
+            "Allushin"
+        ]
+    },
     "info": {
         "Location": "United States",
         "Region": "North America",
         "Coach": " Raul \"Roll Dizz\" Diaz",
         "Approx. Total Winnings": "$736,870",
-        "LPRating": "2783(Rank #1)",
-        "RLCS Points": "61 (Rank #2)",
+        "LPRating": "2789(Rank #1)",
+        "RLCS Points": "9 (Rank #1)",
         "Created": "2021-03-19"
     }
  }
