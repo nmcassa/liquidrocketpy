@@ -14,7 +14,7 @@ class Team:
     def __str__(self):
         return jsonify(self)
 
-    def side_bar_info(self, page: BeautifulSoup):
+    def side_bar_info(self, page: BeautifulSoup) -> dict:
         data = page.find_all("div", {"class": "infobox-cell-2"})
 
         i = 0
@@ -26,7 +26,7 @@ class Team:
 
         return ret
 
-    def get_roster(self, page: BeautifulSoup):
+    def get_roster(self, page: BeautifulSoup) -> dict:
         data = page.find_all("tbody")
 
         ret = {'curr': [], 'former': []}
@@ -43,6 +43,30 @@ class Team:
                         ret['former'].append(player.text)
 
         return ret
+
+def get_achievements(team: Team) -> list:
+    page = get_parsed_page(team.url)
+
+    data = page.find("div", {"class": "achievements"}).find("tbody")
+    rows = data.find_all("tr")
+    rows = rows[1:len(rows)-1]
+
+    ret = []
+
+    for row in rows:
+        outcome = {}
+
+        displays = row.find_all("span", {"style": "display:none;"})
+
+        outcome['date'] = row.find("td").text
+        outcome['place'] = row.find("b", {"class": "placement-text"}).text
+        outcome['tier'] = displays[0].next_sibling.text
+        outcome['tourn-name'] = displays[1].text
+        outcome['prize'] = row.find_all("td", {"style": "text-align:left"})[1].text
+
+        ret.append(outcome)
+
+    return ret
 
 class Encoder(JSONEncoder):
     def default(self, o):
@@ -101,5 +125,8 @@ if __name__ == "__main__":
 
     #print(teams[1:5])
 
+    #t = Team('/rocketleague/Gen.G_Mobil1_Racing')
     t = Team('/rocketleague/FaZe_Clan')
     print(t)
+    print(get_achievements(t)[0])
+

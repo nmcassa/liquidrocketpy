@@ -45,6 +45,17 @@
  }
  ```
 
+## get_achievements(team: Team) -> list
+ get achievements from the teams page (example just prints one result, there's a whole list)
+
+ ```python
+ from liquidrocketpy import rl
+ t = rl.Team('/rocketleague/FaZe_Clan')
+ print(rl.get_achievements(t)[0])
+
+ {'date': '2022-12-11', 'place': '3rd\xa0-\xa04th', 'tier': 'S-Tier', 'tourn-name': 'RLCS 2022-23 - Fall Split Major', 'prize': '$25,500'}
+ ```
+
 ## Get Teams
  returns a list of dicts holding team's names and liquipedia urls
 
