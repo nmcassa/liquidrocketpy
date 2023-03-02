@@ -1,7 +1,5 @@
 # liquidrocketpy TODO
 
-- team roster
-- team previous results 
 - player info
 - tournament info
 - upcoming tournaments

@@ -10,6 +10,8 @@ class Team:
 
         self.roster = self.get_roster(page)
         self.info = self.side_bar_info(page)
+
+        self.clean()
         
     def __str__(self):
         return jsonify(self)
@@ -17,16 +19,22 @@ class Team:
     def side_bar_info(self, page: BeautifulSoup) -> dict:
         data = page.find_all("div", {"class": "infobox-cell-2"})
 
-        i = 0
         ret = {}
 
-        while i < len(data):
-            ret[data[i].text[:len(data[i].text)-1]] = data[i+1].text.replace('\xa0','')
-            i += 2
+        for item in data:
+            adult = item.parent
+
+            d = adult.find_all('div')
+
+            if len(d) != 2:
+                raise Exception("Unexpected Side Bar Info")
+
+            ret[d[0].text] = d[1].text
 
         return ret
 
     def get_roster(self, page: BeautifulSoup) -> dict:
+        #gets current and former players for a team
         data = page.find_all("tbody")
 
         ret = {'curr': [], 'former': []}
@@ -44,6 +52,18 @@ class Team:
 
         return ret
 
+    def clean(self) -> None:
+        #removes unwanted chars from class info
+        for idx, item in enumerate(self.roster['curr']):
+            self.roster['curr'][idx] = item.replace('\u00a0', '')
+
+        for idx, item in enumerate(self.roster['former']):
+            self.roster['former'][idx] = item.replace('\u00a0', '')
+
+        for item in self.info.keys():
+            self.info[item] = self.info[item].replace('\u00a0', '')
+
+
 def get_achievements(team: Team) -> list:
     page = get_parsed_page(team.url)
 
@@ -59,12 +79,34 @@ def get_achievements(team: Team) -> list:
         displays = row.find_all("span", {"style": "display:none;"})
 
         outcome['date'] = row.find("td").text
-        outcome['place'] = row.find("b", {"class": "placement-text"}).text
+        outcome['place'] = row.find("b", {"class": "placement-text"}).text.replace('\xa0', ' ')
         outcome['tier'] = displays[0].next_sibling.text
         outcome['tourn-name'] = displays[1].text
         outcome['prize'] = row.find_all("td", {"style": "text-align:left"})[1].text
 
         ret.append(outcome)
+
+    return ret
+
+def get_played_matches(team: Team) -> list:
+    page = get_parsed_page(team.url + '/Played_Matches')
+    data = page.find_all('tr')[1:]
+
+    ret = []
+
+    for item in data:
+        info = {}
+
+        table_data = item.find_all('td')
+
+        info['Date'] = table_data[0].text
+        info['Tier'] = table_data[2].find('a').text
+        info['Event'] = table_data[3].find('span').text
+        info['Score'] = table_data[5].text.replace('\xa0', ' ')
+        info['Opponent'] = table_data[6].find('a')['title']
+        info['Opponent_Link'] = table_data[6].find('a')['href']
+
+        ret.append(info)
 
     return ret
 
@@ -121,12 +163,12 @@ def get_teams(region: str) -> list:
     return ret
 
 if __name__ == "__main__":
-    teams = get_na_teams()
-
+    #teams = get_na_teams()
     #print(teams[1:5])
 
     #t = Team('/rocketleague/Gen.G_Mobil1_Racing')
     t = Team('/rocketleague/FaZe_Clan')
     print(t)
-    print(get_achievements(t)[0])
+    #print(get_achievements(t)[1])
+    #print(get_played_matches(t)[1:5])
 

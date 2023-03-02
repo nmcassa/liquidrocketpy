@@ -56,6 +56,17 @@
  {'date': '2022-12-11', 'place': '3rd\xa0-\xa04th', 'tier': 'S-Tier', 'tourn-name': 'RLCS 2022-23 - Fall Split Major', 'prize': '$25,500'}
  ```
 
+## get_played_matches(team: Team) -> list
+ get all matches played with info
+
+ '''python
+ from liquidrocketpy import rl
+ t = rl.Team('/rocketleague/FaZe_Clan')
+ print(rl.get_played_matches(t)[1:5])
+
+ [{'Date': '2023-02-19', 'Tier': 'A-Tier', 'Event': 'RLCS 2022-23 - Winter: NA Regional 2 - Winter Cup', 'Score': '4 : 2', 'Opponent': 'G2 Esports', 'Opponent_Link': '/rocketleague/G2_Esports'}, {'Date': '2023-02-18', 'Tier': 'A-Tier', 'Event': 'RLCS 2022-23 - Winter: NA Regional 2 - Winter Cup', 'Score': '4 : 0', 'Opponent': 'Knights', 'Opponent_Link': '/rocketleague/Knights'}, {'Date': '2023-02-17', 'Tier': 'A-Tier', 'Event': 'RLCS 2022-23 - Winter: NA Regional 2 - Winter Cup', 'Score': '3 : 1', 'Opponent': 'NRG', 'Opponent_Link': '/rocketleague/NRG'}, {'Date': '2023-02-17', 'Tier': 'A-Tier', 'Event': 'RLCS 2022-23 - Winter: NA Regional 2 - Winter Cup', 'Score': '3 : 0', 'Opponent': 'M80', 'Opponent_Link': '/rocketleague/M80'}]
+ '''
+
 ## Get Teams
  returns a list of dicts holding team's names and liquipedia urls
 
